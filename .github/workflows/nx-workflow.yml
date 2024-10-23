@@ -13,6 +13,7 @@ permissions:
 env:
   NX_BASE_BRANCH: ${{ github.base_ref }}
   NX_HEAD: ${{ github.sha }}
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 jobs:
   main:
