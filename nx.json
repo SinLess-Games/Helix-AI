@@ -35,8 +35,10 @@
       }
     },
     { "plugin": "@nx/eslint/plugin", "options": { "targetName": "lint" } },
+    { "plugin": "@nx/eslint/plugin", "options": { "targetName": "lint" } },
     {
       "plugin": "@nx/jest/plugin",
+      "options": { "targetName": "test" },
       "options": { "targetName": "test" },
       "exclude": ["apps/auth-server-e2e/**/*", "apps/api/discord-bot-e2e/**/*"]
     },
@@ -58,6 +60,7 @@
       }
     },
     { "plugin": "@nx/rollup/plugin", "options": { "buildTargetName": "build" } }
+    { "plugin": "@nx/rollup/plugin", "options": { "buildTargetName": "build" } }
   ],
   "targetDefaults": {
     "@nx/js:tsc": {
@@ -70,17 +73,9 @@
   },
   "release": { "version": { "preVersionCommand": "npx nx run-many -t build" } },
   "generators": {
-    "@nx/next": {
-      "application": {
-        "style": "scss",
-        "linter": "eslint"
-      }
-    },
-    "@nx/react": {
-      "library": {
-        "unitTestRunner": "jest"
-      }
-    }
+    "@nx/next": { "application": { "style": "scss", "linter": "eslint" } },
+    "@nx/react": { "library": { "unitTestRunner": "jest" } }
   },
+  "nxCloudAccessToken": "NzA3MTJhNzUtNjgyMC00NThmLWIyMzAtMWYzNTIxODIzMTA4fHJlYWQtd3JpdGU=",
   "nxCloudAccessToken": "ZDhiY2U3NTQtNmE4Ni00NjY3LWE3MGMtNDc4ZWYwZjE4Mjk3fHJlYWQtd3JpdGU="
 }
