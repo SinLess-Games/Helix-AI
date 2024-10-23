@@ -21,7 +21,6 @@
       "{workspaceRoot}/go.work"
     ]
   },
-  "nxCloudAccessToken": "ZmIzNmUxYmYtZTM5MC00ZjhhLTlhMDktYTU0ZDE5MjNmZmNhfHJlYWQtd3JpdGU=",
   "plugins": [
     "@nx-go/nx-go",
     "@nxlv/python",
