@@ -13,7 +13,7 @@ permissions:
 env:
   NX_BASE_BRANCH: ${{ github.base_ref }}
   NX_HEAD: ${{ github.sha }}
-  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  #NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 jobs:
   main:
@@ -55,8 +55,7 @@ jobs:
       - run: |
           echo "BASE: ${{ steps.setSHAs.outputs.base }}"
           echo "HEAD: ${{ steps.setSHAs.outputs.head }}"
-          echo "NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}"
-          echo "NO_CLOUD: true"
+          # echo "NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}"
 
       - run: npx nx-cloud record -- nx run-many -t format:check --all
       - run: npx nx run-many -t lint test --all
