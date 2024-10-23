@@ -1,0 +1,106 @@
+# This file is used to define the labels for the PRs based on the changed files in the PR
+
+#
+# Area specific labels'
+#
+area/addons:
+  - changed-files:
+      - any-glob-to-any-file: IaC/bootstrap/templates/addons/**/*
+      - any-glob-to-any-file: IaC/bootstrap/tasks/addons/**/*
+      - any-glob-to-any-file: IaC/bootstrap/vars/addons.sample.yaml
+area/ansible:
+  - changed-files:
+      - any-glob-to-any-file: IaC/Ansible/**/*
+      - any-glob-to-any-file: IaC/bootstrap/templates/Ansible/**/*
+      - any-glob-to-any-file: IaC/bootstrap/tasks/Ansible/**/*
+area/bootstrap:
+  - changed-files:
+      - any-glob-to-any-file: IaC/bootstrap/**/*
+      - any-glob-to-any-file: IaC/bootstrap/configure.yaml
+area/github:
+  - changed-files:
+      - any-glob-to-any-file: .github/**/*
+area/kubernetes:
+  - changed-files:
+      - any-glob-to-any-file: IaC/Kubernetes/**/*
+      - any-glob-to-any-file: IaC/bootstrap/templates/Kubernetes/**/*
+      - any-glob-to-any-file: IaC/bootstrap/tasks/Kubernetes/**/*
+area/taskfile:
+  - changed-files:
+      - any-glob-to-any-file: .taskfiles/**/*
+      - any-glob-to-any-file: Taskfile*
+area/docs:
+  - changed-files:
+      - any-glob-to-any-file: [docs/**/*]
+
+area/apps:
+  - changed-files:
+      - any-glob-to-any-file: [apps/**/*]
+
+area/ai:
+  - changed-files:
+      - any-glob-to-any-file: [apps/ai/**/*]
+
+area/libs:
+  - changed-files:
+      - any-glob-to-any-file: [libs/**/*]
+
+area/docker:
+  - changed-files:
+      - any-glob-to-any-file: [docker/**/*]
+
+# GitHub Actions
+area/.github:
+  - changed-files:
+      - any-glob-to-any-file: [.github/**/*]
+
+area/workflows:
+  - changed-files:
+      - any-glob-to-any-file: [.github/workflows/**/*]
+
+# Dependencies
+area/package.json:
+  - changed-files:
+      - any-glob-to-any-file: [package.json, '**/package.json']
+
+area/requirements.txt:
+  - changed-files:
+      - any-glob-to-any-file: [requirements.txt, '**/requirements.txt']
+
+# Applications
+app/frontend:
+  - changed-files:
+      - any-glob-to-any-file: [apps/user-interface/frontend/**/*]
+
+app/auth-server:
+  - changed-files:
+      - any-glob-to-any-file: [apps/api/auth-server/**/*]
+
+app/discord-bot:
+  - changed-files:
+      - any-glob-to-any-file: [apps/api/discord-bot/**/*]
+
+app/helix:
+  - changed-files:
+      - any-glob-to-any-file: [apps/ai/helix/**/*]
+
+
+
+#
+# Language specific labels
+#
+language/typescript:
+  - changed-files:
+      - any-glob-to-any-file: ['**/*.ts', '**/*.tsx']
+
+language/javascript:
+  - changed-files:
+      - any-glob-to-any-file: ['**/*.js', '**/*.jsx']
+
+language/go:
+  - changed-files:
+      - any-glob-to-any-file: ['**/*.go']
+
+language/python:
+  - changed-files:
+      - any-glob-to-any-file: ['**/*.py']

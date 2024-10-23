@@ -1,0 +1,59 @@
+name: NX Workflow
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  NX_BASE_BRANCH: ${{ github.base_ref }}
+  NX_HEAD: ${{ github.sha }}
+
+jobs:
+  main:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+        poetry-version: ["1.8.3"]
+        os: [ubuntu-22.04, macos-latest, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+        with:
+          fetch-depth: 0
+
+      # Cache node_modules
+      - uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3 # v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Run image
+        uses: abatilo/actions-poetry@7b6d33e44b4f08d7021a1dee3c044e9c253d6439 # v3
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+
+      - run: npm install
+      - run: npx nx run helix:install
+
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        id: setSHAs
+        uses: nrwl/nx-set-shas@16efd743af6fc1421daaaa33b61cec4a907b38ed # v4
+        with:
+          main-branch-name: "master"
+
+      - run: |
+          echo "BASE: ${{ steps.setSHAs.outputs.base }}"
+          echo "HEAD: ${{ steps.setSHAs.outputs.head }}"
+
+      - run: npx nx-cloud record -- nx run-many -t format:check --all
+      - run: npx nx run-many -t lint test --all

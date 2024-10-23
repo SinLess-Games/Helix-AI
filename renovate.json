@@ -1,0 +1,78 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "milestone": 1,
+  "extends": [
+    "config:recommended",
+    "docker:enableMajor",
+    ":disableRateLimiting",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":automergeBranch",
+    "docker:pinDigests",
+    "helpers:pinGitHubActionDigests",
+    ":pinDevDependencies",
+    "config:best-practices"
+  ],
+  "configMigration": true,
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
+  "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
+  "rebaseWhen": "conflicted",
+  "baseBranches": ["develop"],
+  "labels": ["renovate", "dependencies"],
+  "automerge": true,
+  "packageRules": [
+    {
+      "groupName": "JavaScript Dependencies",
+      "matchManagers": ["npm", "nvm"],
+      "enabled": true
+    },
+    {
+      "groupName": "Python Dependencies",
+      "matchManagers": ["poetry"],
+      "enabled": true
+    },
+    {
+      "groupName": "Go Dependencies",
+      "matchManagers": ["gomod"],
+      "enabled": true
+    },
+    {
+      "groupName": "Containers",
+      "matchManagers": ["dockerfile", "docker-compose", "devcontainer"],
+      "enabled": true
+    },
+    {
+      "groupName": "Kubernetes",
+      "matchManagers": [
+        "helmv3",
+        "helm-requirements",
+        "helm-values",
+        "kubernetes",
+        "kustomize"
+      ],
+      "enabled": true
+    },
+    {
+      "groupName": "Infrastructure as Code",
+      "matchManagers": ["terraform", "ansible", "ansible-galaxy"],
+      "enabled": true
+    },
+    {
+      "groupName": "CD - Continous Delivery",
+      "enabled": true,
+      "matchManagers": ["argocd", "flux"]
+    },
+    {
+      "groupName": "CI - Continous Integration",
+      "enabled": true,
+      "matchManagers": ["github-actions", "jenkins"]
+    },
+    {
+      "groupName": "miscellaneous",
+      "enabled": true,
+      "matchManagers": ["asdf", "git-submodules", "pre-commit"]
+    }
+  ],
+  "customManagers": []
+}

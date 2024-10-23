@@ -1,0 +1,156 @@
+# Area specific labels
+- name: area/apps
+  description: Application specific changes
+  color: 'f1e05a'
+- name: area/libs
+  description: Library specific changes
+  color: '2b7489'
+- name: area/docker
+  description: Docker specific changes
+  color: '3572A5'
+- name: area/.github
+  description: GitHub specific changes
+  color: '00ADD8'
+- name: area/workflows
+  description: Workflow specific changes
+  color: 'f1e05a'
+- name: area/package.json
+  description: Package.json specific changes
+  color: '2b7489'
+- name: area/requirements.txt
+  description: Requirements.txt specific changes
+  color: '3572A5'
+- name: area/addons
+  color: '0e8a16'
+- name: area/ansible
+  color: '0e8a16'
+- name: area/bootstrap
+  color: '0e8a16'
+- name: area/github
+  color: '0e8a16'
+- name: area/kubernetes
+  color: '0e8a16'
+- name: area/taskfile
+  color: '0e8a16'
+
+# Applications
+- name: app/frontend
+  description: Frontend application
+  color: 'f1e05a'
+- name: app/auth-server
+  description: Auth server application
+  color: '2b7489'
+- name: app/discord-bot
+  description: Discord bot application
+  color: '3572A5'
+- name: app/helix
+  description: Helix AI application
+  color: '00ADD8'
+
+# Renovate
+- name: renovate/container
+  description: Renovate container updates
+  color: '027fa0'
+- name: renovate/ansible
+  color: '027fa0'
+- name: renovate/container
+  color: '027fa0'
+- name: renovate/github-action
+  color: '027fa0'
+- name: renovate/github-release
+  color: '027fa0'
+- name: renovate/helm
+  color: '027fa0'
+
+# Semantic Type
+- name: type/patch
+  color: 'ffec19'
+- name: type/minor
+  color: 'ff9800'
+- name: type/major
+  color: 'f6412d'
+- name: type/break
+  color: 'f6412d'
+
+# Lifecycle
+- name: bug
+  description: Something isn't working
+  color: 'd73a4a'
+- name: feature
+  description: New feature or request
+  color: 'a2eeef'
+- name: enhancement
+  description: New feature or request
+  color: 'a2eeef'
+- name: question
+  description: Further information is requested
+  color: 'd876e3'
+- name: fixed
+  description: Issue has been fixed
+  color: '0e8a16'
+- name: duplicate
+  description: This issue or pull request already exists
+  color: 'cfd3d7'
+- name: wontfix
+  description: This will not be worked on
+  color: 'cfd3d7'
+- name: invalid
+  description: This does not seem right
+  color: 'cfd3d7'
+- name: automated
+  description: Automated issue or pull request
+  color: 'cfd3d7'
+- name: dependencies
+  description: Issue or pull request related to dependencies
+  color: 'cfd3d7'
+
+# Release Labels
+- name: release/patch
+  description: Patch release
+  color: 'ffec19'
+- name: release/minor
+  description: Minor release
+  color: 'ff9800'
+- name: release/major
+  description: Major release
+  color: 'f6412d'
+- name: release/break
+  description: Breaking changes
+  color: 'f6412d'
+- name: release/alpha
+  description: Alpha release
+  color: 'f6412d'
+- name: release/beta
+  description: Beta release
+  color: 'f6412d'
+
+# Languages
+- name: language/javascript
+  description: JavaScript
+  color: 'f1e05a'
+- name: language/typescript
+  description: TypeScript
+  color: '2b7489'
+- name: language/python
+  description: Python
+  color: '3572A5'
+- name: language/go
+  description: Go
+  color: '00ADD8'
+
+# Priority
+- name: priority/low
+  description: Low priority
+  color: 'cfd3d7'
+- name: priority/medium
+  description: Medium priority
+  color: 'cfd3d7'
+- name: priority/high
+  description: High priority
+  color: 'cfd3d7'
+- name: priority/critical
+  description: Critical priority
+  color: 'cfd3d7'
+
+- name: hold/upstream
+  color: 'ee0701'
