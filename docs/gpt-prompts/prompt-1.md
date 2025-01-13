@@ -112,3 +112,6 @@ Helix-AI/
 │   └── backend/
 └── README.md
 ```
+
+
+I will now provide you with my documentation files with their paths
