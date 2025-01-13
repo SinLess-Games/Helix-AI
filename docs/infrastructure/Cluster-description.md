@@ -78,11 +78,11 @@ The data-plane namespace is dedicated to housing data plane components, which ar
 
 - 2. ✅️✅️ **[OpenEBS](https://openebs.io/docs/):** OpenEBS is a popular open-source storage solution for Kubernetes that provides storage management capabilities within the data-plane namespace. It offers features such as dynamic provisioning, snapshots, and storage policies to ensure reliable and scalable storage for application workloads.
 
-- 3. ✅️ **[Redis](https://github.com/bitnami/charts/tree/main/bitnami/redis):** The Redis Operator manages Redis instances within the data-plane namespace. It automates the deployment, scaling, and management of Redis clusters, making it easier to use Redis for caching and data storage in Kubernetes.
+- 3.  **[Redis](https://github.com/bitnami/charts/tree/main/bitnami/redis):** The Redis Operator manages Redis instances within the data-plane namespace. It automates the deployment, scaling, and management of Redis clusters, making it easier to use Redis for caching and data storage in Kubernetes.
 
 - 4. **[MySQL](https://github.com/bitnami/charts/tree/main/bitnami/mysql):** Mysql is a popular relational database that can be deployed within the data-plane namespace for data storage and management. It provides features such as ACID compliance, transactions, and indexing, making it suitable for a wide range of applications that require structured data storage.
 
-- 5. ✅️ **[RabbitMQ](https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq):** RabbitMQ is a popular message broker that can be deployed within the data-plane namespace for messaging and event-driven applications. It provides features such as message queuing, routing, and clustering, making it easier to build scalable and reliable messaging systems.
+- 5.  **[RabbitMQ](https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq):** RabbitMQ is a popular message broker that can be deployed within the data-plane namespace for messaging and event-driven applications. It provides features such as message queuing, routing, and clustering, making it easier to build scalable and reliable messaging systems.
 
 - 6. **[Velero](https://velero.io/docs/):** Velero is a backup and restore solution for Kubernetes clusters. It provides features such as backup scheduling, retention policies, and disaster recovery, ensuring that critical data and configurations are protected and recoverable in the event of a failure.
 
@@ -106,9 +106,9 @@ Istio provides advanced traffic management, security, and observability features
 
 #### Components:
 
-- 9. ✅️✅️ **[Istio Base]()**: Istio Base is the core component of Istio, providing the foundational features for traffic management, security, and observability. It includes components such as Pilot, Citadel, Galley, Mixer, and the sidecar injector, which are essential for Istio's service mesh capabilities.
+- 9.  **[Istio Base]()**: Istio Base is the core component of Istio, providing the foundational features for traffic management, security, and observability. It includes components such as Pilot, Citadel, Galley, Mixer, and the sidecar injector, which are essential for Istio's service mesh capabilities.
 
-- 10.✅️✅️ **[Istiod](https://istio.io/latest/docs/ops/deployment/architecture/#istiod):** Istiod is the control plane component of Istio, responsible for managing the configuration and operation of the service mesh. It provides a centralized control plane for Istio's traffic management, security, and observability features.
+- 10. **[Istiod](https://istio.io/latest/docs/ops/deployment/architecture/#istiod):** Istiod is the control plane component of Istio, responsible for managing the configuration and operation of the service mesh. It provides a centralized control plane for Istio's traffic management, security, and observability features.
 
 - 11. **[Istio Ingress Gateway](https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-control/):** The Ingress Gateway is the entry point for traffic coming into the mesh. It routes external traffic to the appropriate services inside the mesh based on the defined routing rules.
 
