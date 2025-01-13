@@ -78,14 +78,11 @@ Helix AI integrates with diverse platforms, such as:
 Helix AI supports both **text** and **voice-based communication**, ensuring users can interact in the way that feels most natural to them. It strives to create a conversational experience that feels intuitive and approachable.
 
 ### **Customizability**
+
 Helix AI’s personalization options allow users to:
 - Define workflows and commands.
 - Set preferences for interaction styles.
 - Tailor responses to match their specific goals and needs.
 
----
 
-## Conclusion
-
-Helix AI represents a grand vision of an AI companion that transcends traditional notions of an assistant. By focusing on truthfulness, supportiveness, accessibility, and empowerment, Helix AI aspires to help users lead safer, more connected, and ultimately better lives. With its foundation rooted in enhancing user experiences, Helix AI is set to become a transformative force in the world of AI-driven companionship.
 
