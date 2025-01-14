@@ -15,6 +15,7 @@
 - [ ] Falco
 - [ ] Thanos
 - [ ] Tracing (Grafana Tempo)
+- [ ] Reorganize and refine the documentation {in progress}
 
 ```bash
 docs/
