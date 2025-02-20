@@ -22,19 +22,19 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - uses: pnpm/action-setup@v4
         with:
           version: 9.7.1
 
-      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
+      - uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f # v4
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Set up Node.js
-        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4
         with:
           node-version: '22'
           cache: 'pnpm'
@@ -51,7 +51,7 @@ jobs:
 
       - name: Create Pull Request
         id: create_pr
-        uses: peter-evans/create-pull-request@8867c4aba1b742c39f8d0ba35429c2dfa4b6cb20 # v7
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref_name }} # Use the current branch
