@@ -20,7 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4 # Ensure Node.js is set up, required by many GitHub Actions
         with:
-          node-version: '16' # Set a specific Node.js version for consistency
+          node-version: '22' # Set a specific Node.js version for consistency
 
       - name: Cache Node.js Modules
         uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
