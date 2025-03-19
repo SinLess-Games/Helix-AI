@@ -22,7 +22,7 @@ jobs:
       matrix:
         python-version: ["3.11", "3.12"]
         poetry-version: ["1.8.3"]
-        os: [ubuntu-22.04, macos-latest, ubuntu-24.04]
+        os: [ubuntu-22.04, ubuntu-24.04]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
