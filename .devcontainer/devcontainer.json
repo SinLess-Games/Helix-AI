@@ -38,11 +38,11 @@
      * - go
      */
     "ghcr.io/devcontainers/features/python:1": {
-      "version": "3.12"
+      "version": "3.13"
     },
     "ghcr.io/devcontainers/features/go:1": {},
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "20.17.0"
+      "version": "20.19.0"
     },
     /**
      * Kubernetes tools

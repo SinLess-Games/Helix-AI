@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/python:3.12-bookworm
+FROM mcr.microsoft.com/devcontainers/python:3.13-bookworm@sha256:8cd47e701aa9beb5fa775e832670bcf26d3511762d07fdcabd483f9cb69b5e76
 
 # Set ARGs for directories
 ARG OH_MY_ZSH_CUSTOM_PLUGINS_DIR="/home/vscode/.oh-my-zsh/custom/plugins"
