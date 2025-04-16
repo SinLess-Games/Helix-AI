@@ -1,0 +1,101 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts for readability
+add_newline = true
+command_timeout = 30000  # Increase the timeout in milliseconds (30 seconds)
+
+# Customize the prompt symbol
+[character]
+success_symbol = "[➜ ](bold green)"
+error_symbol = "[✗ ](bold red) "
+
+# Display the Git branch if in a Git repository
+[git_branch]
+symbol = "[🌿 ](bold green)" # Symbol for branch
+style = "bold green"
+disabled = false
+
+[git_status]
+ahead = "[⬆️ ${count} ](bold yellow)"       # Ahead of the remote
+behind = "[⬇️ ${count} ](bold yellow)"      # Behind the remote
+conflicted = "[⚔️ ${count} ](bold red)"     # Merge conflicts
+up_to_date = "[| ✅ | UTD ](bold green)"    # Up-to-date
+deleted = "[🗑️ ${count} ](bold red)"        # Deleted files
+untracked = "[📦 ${count} ](bold blue)"     # Untracked files
+staged = "[✅ ${count} ](bold green)"       # Staged files
+renamed = "[🔄 ${count} ](bold magenta)"    # Renamed files
+modified = "[📝 ${count} ](bold blue)"      # Modified files
+format = "$conflicted$deleted$renamed$staged$untracked$modified$ahead$behind$up_to_date"
+style = "bold yellow"
+
+[kubernetes]
+# Format for displaying Kubernetes context, namespace, user, and cluster
+format = 'on [☸ ($user@)$context (\($namespace\))](bold cyan) '
+disabled = false
+
+# Detect Kubernetes-related directories and files
+detect_folders = ['k8s', '.kube']
+detect_files = ['kubeconfig', '*.kubeconfig']
+
+# Context-specific customizations
+[[kubernetes.contexts]]
+# Match GKE clusters and simplify context display
+context_pattern = "^gke_.*_(.*)$"
+style = "bold green"
+symbol = "⛵ "
+context_alias = "gke-$1"
+
+[[kubernetes.contexts]]
+# Match OpenShift clusters and add a unique symbol
+context_pattern = ".*openshift.*"
+style = "bold red"
+symbol = "💔 "
+context_alias = "openshift"
+
+[[kubernetes.contexts]]
+# Match development clusters
+context_pattern = ".*dev.*"
+style = "bold yellow"
+symbol = "🔧 "
+context_alias = "dev"
+
+[[kubernetes.contexts]]
+# Match production clusters
+context_pattern = ".*prod.*"
+style = "bold magenta"
+symbol = "🔥 "
+context_alias = "prod"
+
+[[kubernetes.contexts]]
+# Match local clusters
+context_pattern = "^minikube$|^kind.*$"
+style = "bold blue"
+symbol = "💻 "
+context_alias = "local"
+
+
+[helm]
+# Customize the format to show the Helm version
+format = 'via [⚓ $version](bold blue) '
+# Customize the version format to show the full version (default behavior)
+version_format = 'v${raw}'
+# Define the files that trigger the module
+detect_files = ['helmfile.yaml', 'Chart.yaml']
+# Optionally define folders to detect Helm usage (empty by default)
+detect_folders = ['charts', 'helm']
+# Customize the symbol for Helm
+symbol = '⎈ '
+# Customize the style for the module
+style = 'bold blue'
+# Ensure the module is enabled
+disabled = false
+
+
+[git_state]
+disabled = false
+
+[python]
+format = "[$symbol$venv$version ](bold blue)"
+style = "bold yellow"
+disabled = false
