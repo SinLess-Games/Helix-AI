@@ -1,246 +1,258 @@
-# =======================================================
-# ==                                                   ==
-# ==                  Global Config                    ==
-# ==                                                   ==
-# =======================================================
+# -------------------------- Zsh Shell Configuration Template --------------------------
 
-# Set the Zsh theme
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# Enable 'nullglob' to prevent unmatched globs from expanding to themselves
+setopt nullglob
 
-# Which plugins would you like to load?
+# -------------------------- General Zsh Options --------------------------
+setopt autocd
+setopt interactivecomments
+setopt magicequalsubst
+setopt nonomatch
+setopt notify
+setopt numericglobsort
+setopt promptsubst
+
+# Clean up WORDCHARS
+WORDCHARS=${WORDCHARS//\\/}
+PROMPT_EOL_MARK=""
+
+# -------------------------- Keybindings --------------------------
+bindkey -e
+bindkey ' ' magic-space
+bindkey '^U' backward-kill-line
+bindkey '^[[3;5~' kill-word
+bindkey '^[[3~' delete-char
+bindkey '^[[1;5C' forward-word
+bindkey '^[[1;5D' backward-word
+bindkey '^[[5~' beginning-of-buffer-or-history
+bindkey '^[[6~' end-of-buffer-or-history
+bindkey '^[[H' beginning-of-line
+bindkey '^[[F' end-of-line
+bindkey '^[[Z' undo
+
+# -------------------------- Completion Settings --------------------------
+autoload -Uz compinit
+compinit -d ~/.cache/zcompdump
+zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*' completer _expand _complete
+zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' rehash true
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' use-compctl false
+zstyle ':completion:*' verbose true
+zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
+# -------------------------- History Configuration --------------------------
+HISTFILE=~/.zsh_history
+HISTSIZE=1000
+SAVEHIST=2000
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_verify
+alias history="history 0"
+
+# -------------------------- Timing --------------------------
+TIMEFMT=$'\nreal\t%E\nuser\t%U\nsys\t%S\ncpu\t%P'
+
+# -------------------------- PATH Configuration --------------------------
+export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/vscode/bin:/home/vscode/.local/bin:/usr/local/bin:$PATH"
+
+# -------------------------- Environment Variables --------------------------
+export ZSH="/home/vscode/.oh-my-zsh"
+export STARSHIP_CONFIG="/home/vscode/.starship.toml"
+export DEFAULT_FONT='FiraCode NF'
+export HOMEBREW_NO_ENV_HINTS=1
+
+
+# -------------------------- Oh My Zsh Theme and Plugins --------------------------
+ZSH_THEME="robbyrussell"
 plugins=(
-  git
-  git-extras
-  history
-  docker
-  docker-compose
-  sudo
-  zsh-autosuggestions
-  zsh-syntax-highlighting
-  zsh-completions
-  zsh-kubectl-prompt
-  fast-syntax-highlighting
-  zsh-history-substring-search
+    aliases ansible aws azure brew direnv docker docker-compose emoji encode64 fluxcd gcloud
+    gem gh git git-commit git-extras git-flow github git-lfs helm history kubectl microk8s
+    minikube ng npm nvm pre-commit redis-cli ssh ssh-agent sudo systemd terraform ubuntu
+    ufw vscode yarn
+    zsh-syntax-highlighting
+    zsh-autosuggestions
+    zsh-completions
+    you-should-use
+    zsh-bat
+
 )
 
-# Set personal aliases
-DISABLE_AUTO_UPDATE=false
-DISABLE_UPDATE_PROMPT=true
 
-# =======================================================
-# ==                                                   ==
-# ==                      Exports                      ==
-# ==                                                   ==
-# =======================================================
-
-
-# Path to your oh-my-zsh installation.
-export ZSH="/home/$USER/.oh-my-zsh"
-
-# Go config
-export GOPATH="$HOME/go"
-export PATH="$PATH:/usr/local/go/bin:$GOPATH/bin"
-
-# Add Python to PATH
-export PATH="/usr/local/opt/python/libexec/bin:$PATH"
-
-# Add Node and NVM to PATH
-export NVM_DIR="$HOME/.nvm"
-# Homebrew path (update to your installation location)
-export PATH="/home/linuxbrew/.linuxbrew/Homebrew/bin:$PATH"
-export PATH="/home/linuxbrew/.linuxbrew/Homebrew/sbin:$PATH"
-
-# Add Yarn to PATH
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
-# Add pnpm to PATH
-export PATH="$HOME/.pnpm-global/bin:$PATH"
-
-# Add Poetry to PATH
-export PATH="$HOME/.poetry/bin:$PATH"
-
-# Add Homebrew to PATH
-export PATH="/opt/homebrew/bin:$PATH"
-
-# Add Kubernetes CLI (kubectl) to PATH
-export PATH="$PATH:/usr/local/bin/kubectl"
-
-# Add Helm to PATH
-export PATH="$PATH:/usr/local/bin/helm"
-
-# Export environment variables for AWS CLI
-export AWS_REGION="us-east-1"  # Adjust the region as needed
-export AWS_DEFAULT_OUTPUT="json"
-
-# Export environment variable for Kubernetes CLI
-export KUBECONFIG="./kubeconfig"
-export K8S_AUTH_KUBECONFIG="./kubeconfig"
-
-# Ansible environment variables
-export ANSIBLE_VARS_ENABLED="host_group_vars"
-export ANSIBLE_LOCALHOST_WARNING="False"
-export ANSIBLE_INVENTORY_UNPARSED_WARNING="False"
-
-# Terraform environment variables
-export TF_DATA_DIR="./.terraform"
-export TF_LOG_PATH="./.logs/terraform/terraform.log"
-
-# K0s environment variables
-export DISABLE_TELEMETRY="true"
-export DISABLE_UPGRADE_CHECK="true"
-
-# SOPS Age key
-export SOPS_AGE_KEY_FILE="./.age.key"
-
-# =======================================================
-# ==                                                   ==
-# ==                       Sources                     ==
-# ==                                                   ==
-# =======================================================
-
-# Source Oh-My-Zsh
 source $ZSH/oh-my-zsh.sh
 
-# Enable direnv
-eval "$(direnv hook zsh)"
+# -------------------------- Prompt Configuration --------------------------
+PROMPT_ALTERNATIVE=twoline
+NEWLINE_BEFORE_PROMPT=yes
 
-# Source Powerlevel10k theme
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+configure_prompt() {
+    prompt_symbol=㉿
+    case "$PROMPT_ALTERNATIVE" in
+        twoline)
+            PROMPT=$'%F{%(#.blue.green)}┌──${debian_chroot:+($debian_chroot)─}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))─}(%B%F{%(#.red.blue)}%n'${prompt_symbol}'%m%b%F{%(#.blue.green)})-[%B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}]\n└─%B%(#.%F{red}#.%F{blue}$)%b%F{reset} '
+            ;;
+        oneline)
+            PROMPT=$'${debian_chroot:+($debian_chroot)}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))}%B%F{%(#.red-blue)}%n@%m%b%F{reset}:%B%F{%(#.blue-green)}%~%b%F{reset}%(#.#.$) '
+            ;;
+        backtrack)
+            PROMPT=$'${debian_chroot:+($debian_chroot)}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))}%B%F{red}%n@%m%b%F{reset}:%B%F{blue}%~%b%F{reset}%(#.#.$) '
+            ;;
+    esac
+    unset prompt_symbol
+}
 
-# Add SSH key to ssh-agent
-eval "$(ssh-agent -s)"
+if [ -n "$force_color_prompt" ]; then
+    color_prompt=yes
+    VIRTUAL_ENV_DISABLE_PROMPT=1
+    configure_prompt
+fi
 
-# load .env
-source .env
+# Toggle prompt layout with Ctrl+P
+zle -N toggle_oneline_prompt
+bindkey ^P toggle_oneline_prompt
 
-# Set Homebrew environment variables
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+toggle_oneline_prompt() {
+    [ "$PROMPT_ALTERNATIVE" = oneline ] && PROMPT_ALTERNATIVE=twoline || PROMPT_ALTERNATIVE=oneline
+    configure_prompt
+    zle reset-prompt
+}
 
-# =======================================================
-# ==                                                   ==
-# ==                      Aliases                      ==
-# ==                                                   ==
-# =======================================================
+# Terminal window title
+case "$TERM" in
+    xterm*|rxvt*|Eterm|aterm|kterm|gnome*|alacritty)
+        TERM_TITLE=$'\e]0;${debian_chroot:+($debian_chroot)}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))}%n@%m: %~\a'
+        ;;
+esac
 
-# Kubernetes aliases
-alias k='kubectl'
-alias kns='kubectl config set-context --current --namespace'
-alias klogs='kubectl logs -f'
-alias kpods='kubectl get pods'
-alias ksvc='kubectl get svc'
-alias kapply='kubectl apply -f'
-alias kdel='kubectl delete -f'
-alias kctx='kubectl config use-context'  # Switch context
+precmd() {
+    print -Pnr -- "$TERM_TITLE"
+    [ "$NEWLINE_BEFORE_PROMPT" = yes ] && { [ -n "$_NEW_LINE_BEFORE_PROMPT" ] && print "" || _NEW_LINE_BEFORE_PROMPT=1; }
+}
 
-# Helm aliases
-alias h='helm'
-alias hls='helm list'
-alias hdel='helm delete'
+# -------------------------- Highlighting & Suggestions --------------------------
+if [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+    . /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
 
-# Docker aliases
-alias d='docker'
-alias dc='docker-compose'
+if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    . /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#999'
+fi
 
-# Terraform aliases
-alias tf='terraform'
-alias tfa='terraform apply'
-alias tfd='terraform destroy'
-alias tfp='terraform plan'
+[ -f /etc/zsh_command_not_found ] && . /etc/zsh_command_not_found
 
-# Ansible aliases
-alias ans='ansible'
-alias anspl='ansible-playbook'
+# -------------------------- Color Support & Aliases --------------------------
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    export LS_COLORS="$LS_COLORS:ow=30;44:"
+    alias ls='ls --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+    alias diff='diff --color=auto'
+    alias ip='ip --color=auto'
+    zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+fi
 
-# Python virtual environment alias
-alias venv='source ./.venv/bin/activate'
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'
 
-# Git shortcuts
+# -------------------------- Logging Utilities --------------------------
+log_info()    { echo -e "\033[1;34m🔵 [INFO] | $1\033[0m"; }
+log_warn()    { echo -e "\033[0;33m🟠 [WARN] | $1\033[0m"; }
+log_error()   { echo -e "\033[1;31m🔴 [ERROR] | $1\033[0m"; }
+log_success() { echo -e "\033[0;32m✅ [SUCCESS] | $1\033[0m"; }
+
+# -------------------------- Brewfile Automation --------------------------
+if [ -f "{{ user.home_directory }}/Brewfile" ]; then
+    log_info "Brewfile found. Installing..."
+    brew bundle --file={{ user.home_directory }}/Brewfile >/dev/null 2>&1 && log_success "Installed" || log_error "Install failed"
+else
+    log_warn "No Brewfile found."
+fi
+
+# -------------------------- Direnv Setup --------------------------
+if ! command -v direnv &>/dev/null; then
+  log_info "Installing direnv..."
+  brew install direnv
+fi
+
+# -------------------------- Dev Aliases --------------------------
 alias gs='git status'
-alias gp='git pull'
-alias gco='git checkout'
-alias gd='git diff'
 alias gl='git log'
-alias ga='git add .'
 alias gc='git commit -m'
-alias gpush='git push'
+alias gp='git push'
+alias gpl='git pull'
+alias ga='git add .'
 
-# Networking and Speedtest
-alias pingg='gping'
-alias speedtest='speedtest-cli'
+alias c='clear'
 
-# Directory Navigation
-alias ll='colorls -la'  # Use exa as a replacement for ls
-alias ..='cd ..'
+alias k='kubectl'
+alias nodes='kubectl get nodes'
+alias services='kubectl get services'
+alias pods='kubectl get pods'
+alias deploys='kubectl get deployments'
 
-# =======================================================
-# ==                                                   ==
-# ==                  Custom Functions                 ==
-# ==                                                   ==
-# =======================================================
+alias dps='docker ps'
+alias dstop='docker stop $(docker ps -aq)'
+alias dc='docker-compose'
+alias dcb='docker-compose build'
+alias dcu='docker-compose up'
+alias dcd='docker-compose down'
 
-# Check if Homebrew is installed, and install if necessary
-check_and_install_homebrew() {
-    if ! command -v brew &> /dev/null; then
-        echo "Homebrew not found. Installing..."
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    else
-        echo "Homebrew is already installed."
-    fi
+# -------------------------- Brew Update --------------------------
+brew-update() {
+    log_info "Updating Homebrew..."
+    brew update >/dev/null 2>&1
+    brew outdated >/dev/null 2>&1
+    brew upgrade >/dev/null 2>&1
+}
+alias bu='brew-update'
+
+# -------------------------- Release Helper --------------------------
+create_release() {
+    npm install -g generate-changelog
+    last_tag=$(git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null || echo "0.0.0")
+    IFS='.' read -r major minor patch <<< "${last_tag:-0.0.0}"
+    new_tag="${major}.${minor}.$((patch+1))"
+    git tag -a "$new_tag" -m "Release $new_tag"
+    git push origin "$new_tag"
+    changelog_file="CHANGELOGS/Changelog-$(date +%m-%d-%Y).md"
+    generate-changelog --file "$changelog_file" --tag "$last_tag..$new_tag"
+    git add "$changelog_file"
+    git commit -m "Changelog for $new_tag"
+    git push origin master
 }
 
-# View Vitess tablet logs
-vitess_logs() {
-    kubectl logs -f -l app=vitess
+# -------------------------- Reload Function --------------------------
+reload() {
+  source ~/.zshrc
+  log_info "Reloaded .zshrc"
 }
 
-# View Istio logs for a specific pod
-istio_pod_logs() {
-    pod_name=$(kubectl get pods -l istio="$1" -o jsonpath='{.items[0].metadata.name}')
-    kubectl logs -f "$pod_name"
-}
+# -------------------------- Final Setup --------------------------
+if ! brew list | grep -q 'python'; then
+  log_info "Linking python..."
+  brew link python
+fi
 
-# Countdown timer
-countdown() {
-    secs=$1
-    while [ $secs -gt 0 ]; do
-        echo -ne "Sleeping for $secs seconds...\033[0K\r"
-        sleep 1
-        : $((secs--))
-    done
-    echo "Sleeping for 0 seconds... Done."
-}
-
-# Check if Kubernetes nodes are ready
-check_if_nodes_are_ready() {
-    kubectl get nodes | grep -v "Ready"
-}
-
-# Get Kubernetes nodes
-get_nodes() {
-    kubectl get nodes
-}
-
-# Direnv auto-allow
 direnv allow
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$(starship init zsh)"
 
-
-# =======================================================
-# ==                                                   ==
-# ==                  Conditional Logic                ==
-# ==                                                   ==
-# =======================================================
-
-# Add SSH key
-if [ -f ~/.ssh/id_rsa ]; then
-    ssh-add ~/.ssh/id_rsa
-elif [ -f ~/.ssh/id_ed25519 ]; then
-    ssh-add ~/.ssh/id_ed25519
+# -------------------------- SSH Agent Setup --------------------------
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+  eval $(ssh-agent -s)
 fi
 
-# activate virtual environment if it exists
-if [ -d ".venv" ]; then
-    venv
-fi
-
-# Check if Homebrew is installed
-check_and_install_homebrew
+for key in ~/.ssh/id_ed25519-*; do
+  [[ -f "$key" && "$key" != *.pub && "$key" != *-cert.pub ]] && log_info "Adding SSH key: $key" && ssh-add "$key" > /dev/null 2>&1
+done
