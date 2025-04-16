@@ -1,42 +1,24 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/debian
 {
   "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
-  "name": "Helix Ai (IaC) Dev Container",
-  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  // "image": "mcr.microsoft.com/devcontainers/base:bullseye",
-  "build": {
-    "dockerfile": "./Dockerfile"
-  },
+  "name": "Helix Ai Dev Container",
+  "dockerComposeFile": ["./docker-compose.yaml"],
+  "service": "dev-container",
+  "workspaceFolder": "/workspace",
   "containerEnv": {
-    "KUBECONFIG": "/workspaces/Helix-Ai-IaC/kubeconfig",
-    "SOPS_AGE_KEY_FILE": "/workspaces/Helix-Ai-IaC/.age.key",
-    "ROOT_FOLDER": "/home/vscode"
+    "KUBECONFIG": "/workspace/Helix-Ai-IaC/kubeconfig",
+    "SOPS_AGE_KEY_FILE": "/workspace/Helix-Ai-IaC/.age.key",
+    "ROOT_FOLDER": "/workspace"
   },
   "hostRequirements": {
     "gpu": "optional"
   },
   "remoteEnv": {},
-  // Privlaged is required to run sudo
   "privileged": true,
   "postCreateCommand": {},
-  "postStartCommand": "./scripts/postStartSetup.sh",
-  // Features to add to the dev container. More info: https://containers.dev/features.
+  "postStartCommand": "/workspace/scripts/postStartSetup.sh",
   "features": {
-    // Age and sops
     "ghcr.io/devcontainers-contrib/features/sops:1": {},
-    /**
-     * IaC tools
-     * - ansible
-     * - terraform
-     * - cloudflared
-     */
     "ghcr.io/devcontainers-contrib/features/cloudflared:1": {},
-    /**
-     * Languages
-     * - python
-     * - go
-     */
     "ghcr.io/devcontainers/features/python:1": {
       "version": "3.12"
     },
@@ -44,18 +26,6 @@
     "ghcr.io/devcontainers/features/node:1": {
       "version": "20.17.0"
     },
-    /**
-     * Kubernetes tools
-     * - kubectl
-     * - helm
-     * - cilium
-     * - flux
-     * - kustomize
-     * - kubeconform
-     * - kubectl-helm
-     * - kustomize
-     * - istioctl
-     */
     "ghcr.io/jsburckhardt/devcontainer-features/flux:1": {},
     "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
       "version": "1.27.11"
@@ -66,13 +36,6 @@
     "ghcr.io/audacioustux/devcontainers/cilium:1": {},
     "ghcr.io/devcontainers/features/github-cli:1": {},
     "ghcr.io/devcontainers-contrib/features/istioctl:1": {},
-    /**
-     * Common utils
-     * - zsh
-     * - direnv
-     * - go-task
-     * - homebrew
-     */
     "ghcr.io/devcontainers/features/common-utils:2": {
       "configureZshAsDefaultShell": true,
       "installOhMyZshConfig": true
@@ -95,7 +58,6 @@
           }
         },
         "terminal.integrated.defaultProfile.linux": "zsh",
-        // change terminal fonnt size to 18
         "terminal.integrated.fontSize": 18,
         "files.autoSave": "onFocusChange"
       },

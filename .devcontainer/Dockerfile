@@ -1,62 +1,58 @@
 FROM mcr.microsoft.com/devcontainers/python:3.12-bookworm
 
-# Set ARGs for directories
-ARG OH_MY_ZSH_CUSTOM_PLUGINS_DIR="/home/vscode/.oh-my-zsh/custom/plugins"
+ENV DEBIAN_FRONTEND=noninteractive \
+    ZSH=/workspace/.oh-my-zsh \
+    ZSH_CUSTOM=/workspace/.oh-my-zsh/custom
 
-# Enable passwordless sudo for vscode user
-RUN echo "vscode ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/vscode
+# Combine apt-get commands to reduce image layers and clean up properly
+RUN echo "vscode ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/vscode && \
+    apt-get update -y --fix-missing && \
+    apt-get install -y --no-install-recommends \
+      cloud-image-utils \
+      curtain \
+      direnv \
+      dos2unix \
+      fonts-powerline \
+      genisoimage \
+      git \
+      git-flow \
+      iputils-ping \
+      make \
+      ovmf \
+      qemu-system \
+      qemu-utils \
+      ruby-full \
+      tzdata \
+      zsh && \
+    rm -rf /var/lib/apt/lists/*
 
-# Install necessary apt packages
-RUN sudo apt-get update -y --fix-missing \
-    && sudo apt-get install -y --no-install-recommends \
-      genisoimage qemu-utils qemu-system ovmf cloud-image-utils make curtain git curl \
-      zsh tzdata iputils-ping git-flow direnv dos2unix ruby-full fonts-powerline \
-    && sudo rm -rf /var/lib/apt/lists/*
+# Install Oh My Zsh and plugins in a single RUN command to reduce layers
+RUN rm -rf $ZSH && \
+    CHSH=no RUNZSH=no sh -c "$(curl --retry 3 --retry-delay 5 -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions && \
+    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting && \
+    git clone --depth=1 https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM}/plugins/zsh-completions && \
+    git clone --depth=1 https://github.com/fabiogibson/envrc-zsh-plugin.git ${ZSH_CUSTOM}/plugins/envrc && \
+    git clone --depth=1 https://github.com/superbrothers/zsh-kubectl-prompt.git ${ZSH_CUSTOM}/plugins/zsh-kubectl-prompt && \
+    git clone --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/fast-syntax-highlighting && \
+    git clone --depth=1 https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM}/plugins/zsh-history-substring-search && \
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM}/themes/powerlevel10k && \
+    gem install colorls
 
-# Install Oh-My-Zsh
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" || true
-
-# Correct plugin directory paths
-RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-/home/vscode/.oh-my-zsh/custom}/plugins/zsh-autosuggestions \
-    && git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-/home/vscode/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting \
-    && git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-/home/vscode/.oh-my-zsh/custom}/plugins/zsh-completions \
-    && git clone https://github.com/fabiogibson/envrc-zsh-plugin.git ${ZSH_CUSTOM:-/home/vscode/.oh-my-zsh/custom}/plugins/envrc \
-    && git clone https://github.com/superbrothers/zsh-kubectl-prompt.git ${ZSH_CUSTOM:-/home/vscode/.oh-my-zsh/custom}/plugins/zsh-kubectl-prompt \
-    && git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-/home/vscode/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting \
-    && git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-/home/vscode/.oh-my-zsh/custom}/plugins/zsh-history-substring-search \
-    && git clone https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-/home/vscode/.oh-my-zsh/custom}/themes/powerlevel10k
-
-#
-RUN sudo gem install colorls
-
-# Copy SSH keys
-COPY .ssh /home/vscode/.ssh
-RUN chmod 700 /home/vscode/.ssh && chmod 600 /home/vscode/.ssh/*
-
-# Set up authorized keys
-RUN curl -sL 'https://github.com/SinLess-Games.keys' >> /home/vscode/.ssh/authorized_keys
-
-# Copy .zshrc configuration
+# Combine COPY and subsequent commands into a single RUN to reduce layers
 COPY .zshrc /home/vscode/.zshrc
+COPY .starship.toml /home/vscode/.config/starship.toml
+COPY .p10k.zsh /home/vscode/.p10k.zsh
+RUN dos2unix /home/vscode/.zshrc && \
+    if [ -f /home/vscode/.gnupg/pub.gpg ]; then \
+      gpg --import /home/vscode/.gnupg/pub.gpg; \
+    fi && \
+    chown -R vscode:vscode /workspace && \
+    dos2unix /home/vscode/.config/starship.toml && \
+    chown -R vscode:vscode /home/vscode/.zshrc && \
+    chown -R vscode:vscode /home/vscode/.config/starship.toml
 
-RUN dos2unix /home/vscode/.zshrc
-
-# Copy GPG key
-COPY gpg-pubkey /home/vscode/.gnupg/pub.gpg
-RUN chmod 600 /home/vscode/.gnupg/pub.gpg
-
-# Set SSH key permissions
-RUN sudo chmod 600 /home/vscode/.ssh/id_ed25519
-
-# Import GPG key
-RUN gpg --import /home/vscode/.gnupg/pub.gpg
-
-# Change ownership of the home directory to vscode user
-RUN chown -R vscode:vscode /home/vscode
-
-# Switch to non-root user
 USER vscode
-WORKDIR /home/vscode
+WORKDIR /workspace
 
-# Source .zshrc in the post attach command to apply changes
 CMD ["zsh"]
