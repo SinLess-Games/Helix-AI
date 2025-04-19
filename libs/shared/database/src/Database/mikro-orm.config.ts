@@ -12,6 +12,7 @@ import {
   FindOneOptions,
   EntityData,
 } from '@mikro-orm/core'
+import { Options } from '@mikro-orm/core'
 import { entities } from './entities'
 
 // Database drivers

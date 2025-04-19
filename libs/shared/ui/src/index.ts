@@ -2,4 +2,4 @@
 
 export * from './Background'
 export * from './Header'
-export * from './Card'
+export { Helix_Card, CardProps } from './Card'
