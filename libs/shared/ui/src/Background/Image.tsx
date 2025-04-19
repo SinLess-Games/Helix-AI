@@ -1,4 +1,6 @@
 import React from 'react'
+import Image from 'next/image'
+import { Box } from '@mui/material'
 
 export interface BackgroundImageProps {
   imageUrl: string
@@ -14,31 +16,26 @@ export const BackgroundImage: React.FC<BackgroundImageProps> = ({
   children,
 }) => {
   return (
-    <div
-      style={{
-        position: 'static',
+    <Box
+      sx={{
+        position: 'relative',
         minHeight: '100vh',
         minWidth: '100vw',
+        overflow: 'hidden',
         ...style,
       }}
     >
-      <div
-        aria-label={altText}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundImage: `url(${imageUrl})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          zIndex: -1,
-        }}
+      <Image
+        src={imageUrl}
+        alt={altText}
+        layout="fill"
+        objectFit="cover"
+        quality={100}
+        priority
+        style={{ zIndex: -1 }}
       />
       {children}
-    </div>
+    </Box>
   )
 }
 

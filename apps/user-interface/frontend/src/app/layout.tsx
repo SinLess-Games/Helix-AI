@@ -8,7 +8,7 @@ export const metadata = {
 }
 
 const backgroundImageProps: BackgroundImageProps = {
-  imageUrl: 'https://cdn.sinlessgamesllc.com/Helix-AI/images/Helix-AI.svg',
+  imageUrl: 'https://cdn.sinlessgamesllc.com/Helix-AI/images/Background.png',
   altText: 'background',
 }
 

@@ -104,20 +104,19 @@ export const Helix_Card: React.FC<CardProps> = ({
                   justifyContent: 'center',
                 }}
               >
-                <Link href={item.href} passHref>
-                  <Typography
-                    component="a"
-                    variant="body1"
-                    sx={{
-                      color: '#daa520',
-                      fontSize: '1.25rem',
-                      fontFamily: '"Mate SC", serif',
-                    }}
-                    target={item.target}
-                  >
-                    {item.text}
-                  </Typography>
-                </Link>
+                <Button
+                  href={item.href}
+                  target={item.target || '_blank'}
+                  rel="noopener noreferrer"
+                  sx={{
+                    color: '#daa520',
+                    fontSize: '1.25rem',
+                    fontFamily: '"Mate SC", serif',
+                    textTransform: 'none',
+                  }}
+                >
+                  {item.text}
+                </Button>
               </ListItem>
             ))}
           </List>
@@ -148,7 +147,7 @@ export const Helix_Card: React.FC<CardProps> = ({
           }}
         >
           {link.startsWith('/') ? (
-            <Link href={link} passHref>
+            <Link href={link} passHref legacyBehavior>
               <Button component="a" variant="contained" color="primary">
                 {buttonText || 'Read more'}
               </Button>
