@@ -13,6 +13,15 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sinlessgamesllc.com',
+        pathname: '/Helix-AI/images/**',
+      },
+    ],
+  },
   webpack(config, { isServer }) {
     // Add any custom webpack plugins here
     config.plugins.push(new webpack.HotModuleReplacementPlugin())

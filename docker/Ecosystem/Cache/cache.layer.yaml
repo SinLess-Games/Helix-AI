@@ -1,4 +1,10 @@
 services:
   redis:
-    image: redis/redis-stack-server:7.4.0-v0
+    image: redis/redis-stack:7.2.0-v15
     container_name: redis
+    restart: always
+    networks:
+      - helix
+    ports:
+      - "6379:6379"
+      - "8001:8001"

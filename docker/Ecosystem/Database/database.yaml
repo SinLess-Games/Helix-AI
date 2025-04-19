@@ -1,0 +1,26 @@
+services:
+  cockroachDB:
+    image: cockroachdb/cockroach:v23.2.23
+    container_name: cockroachDB
+    restart: always
+    networks:
+      - helix
+    # ← add this command so Cockroach knows to start a single-node cluster
+    command: start-single-node --insecure --host=0.0.0.0 --http-addr=0.0.0.0:8080
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+    # (optional) mount a volume for data persistence
+    volumes:
+      - cockroach-data:/cockroach/cockroach-data
+
+  vault-mysql:
+    image: mysql:latest
+    container_name: vault-mysql
+    networks:
+      - helix
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: vault
+      MYSQL_USER: vault
+      MYSQL_PASSWORD: vault

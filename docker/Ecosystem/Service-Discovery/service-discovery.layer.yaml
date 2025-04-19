@@ -7,6 +7,10 @@ services:
     volumes:
       - ./consul/config/server-1:/consul/config
     command: 'agent -bootstrap-expect=3'
+    ports:
+      - "8500:8500"
+    networks:
+      - helix
 
   consul-server-2: &consul-server-2
     image: hashicorp/consul:1.17.1
@@ -16,6 +20,8 @@ services:
     volumes:
       - ./consul/config/server-2:/consul/config
     command: 'agent -bootstrap-expect=3'
+    networks:
+      - helix
 
   consul-server-3: &consul-server-3
     image: hashicorp/consul:1.17.1
@@ -25,3 +31,5 @@ services:
     volumes:
       - ./consul/config/server-3:/consul/config
     command: 'agent -bootstrap-expect=3'
+    networks:
+      - helix
