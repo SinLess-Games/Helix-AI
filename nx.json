@@ -72,5 +72,5 @@
     "@nx/next": { "application": { "style": "scss", "linter": "eslint" } },
     "@nx/react": { "library": { "unitTestRunner": "jest" } }
   },
-  "nxCloudAccessToken": "NzA3MTJhNzUtNjgyMC00NThmLWIyMzAtMWYzNTIxODIzMTA4fHJlYWQtd3JpdGU="
+  "nxCloudAccessToken": "MmQxNmFkNTAtZGVkNS00MWY2LWE5NTAtMzIxMDFhNmEyNzAwfHJlYWQtd3JpdGU="
 }
