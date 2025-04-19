@@ -1,6 +1,7 @@
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection'
-import { Options, MikroORM } from '@mikro-orm/core'
+import { Options } from '@mikro-orm/core'
 import { entities } from './entities'
+import { MikroORM } from '@mikro-orm/postgresql' // or any other driver package
 
 export type { Options as DatabaseOptions } from '@mikro-orm/core'
 

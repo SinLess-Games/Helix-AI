@@ -5,60 +5,112 @@ services:
   fluentd:
     build:
       context: ./fluentd
-    image: sinless777/helix-fluentd
+    image: sinless777/helix-fluentd:latest
     container_name: fluentd
+    restart: always
+    networks:
+      - helix
+    volumes:
+      - ./fluentd/fluent.conf:/etc/fluentd/fluent.conf:ro
+      - fluentd-logs:/fluentd/log
+    healthcheck:
+      test: ["CMD-SHELL", "fluentd --dry-run --config /fluentd/etc/fluent.conf"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   #
   # Monitoring
   #
   prometheus:
-    image: prom/prometheus
-    hostname: prometheus
+    image: prom/prometheus:latest
     container_name: prometheus
+    restart: always
+    networks:
+      - helix
+    ports:
+      - '9090:9090'
     volumes:
-      - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
+      - ./prometheus:/etc/prometheus
+      - prometheus-data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yaml'
+      - '--storage.tsdb.path=/prometheus'
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider http://localhost:9090/-/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:latest
     container_name: grafana
+    restart: always
+    networks:
+      - helix
+    depends_on:
+      prometheus:
+        condition: service_healthy
     ports:
       - '3000:3000'
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_USERS_ALLOW_SIGN_UP=false
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: 'false'
     volumes:
-      - '../../../.data/grafana:/var/lib/grafana'
-    depends_on:
-      - prometheus
+      - grafana-storage:/var/lib/grafana
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   #
   # Log Analysis
   #
-  elastic:
+  elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.14.0
-    hostname: elastic
-    container_name: elastic
+    container_name: elasticsearch
+    restart: always
+    networks:
+      - helix
+    ports:
+      - '9200:9200'
     environment:
       - discovery.type=single-node
       - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
-      - ELASTIC_PASSWORD=admin
-      - xpack.security.enabled=true
-      - path.data=/usr/share/elasticsearch/data
-      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
     ulimits:
       memlock:
         soft: -1
         hard: -1
-    mem_limit: 1g
     volumes:
-      - ./elastic/config.yaml:/usr/share/elasticsearch/config/elasticsearch.yaml
+      - elastic-data:/usr/share/elasticsearch/data
+      - ./elastic/config.yaml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   kibana:
     image: docker.elastic.co/kibana/kibana:8.14.0
     container_name: kibana
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elastic:9200
+    restart: always
+    networks:
+      - helix
     depends_on:
-      - elastic
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - '5601:5601'
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - SERVER_NAME=kibana
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5601/api/status || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+

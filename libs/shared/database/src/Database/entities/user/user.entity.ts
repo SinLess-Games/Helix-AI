@@ -1,5 +1,5 @@
 import { Entity, Property, OneToOne, OneToMany, Cascade } from '@mikro-orm/core'
-import { uuid as uuidv4 } from 'uuidv4'
+import { uuid as uuidv5 } from 'uuidv5'
 import { UserProfile } from './user-profile.entity'
 import { UserSetting } from './user-setting.entity'
 import { Role } from '../../enums'
@@ -10,7 +10,7 @@ import { BaseEntity } from '../base.entity'
 @Entity()
 export class User extends BaseEntity {
   @Property()
-  uuid: string = uuidv4()
+  uuid: string = uuidv5()
 
   @Property({ nullable: true })
   name?: string
@@ -53,6 +53,6 @@ export class User extends BaseEntity {
 
   // Use BeforeUpsert instead of BeforeInsert
   async beforeUpsert() {
-    this.uuid = uuidv4()
+    this.uuid = uuidv5()
   }
 }
