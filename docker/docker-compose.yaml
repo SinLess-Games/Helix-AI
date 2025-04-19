@@ -1,4 +1,18 @@
-name: 'helix-ai'
+name: Helix-AI
+
+networks:
+  helix:
+    driver: bridge
+
+volumes:
+  cockroach-data:
+    driver: local
+  fluentd-config:
+  fluentd-logs:
+  prometheus-config:
+  prometheus-data:
+  grafana-storage:
+  elastic-data:
 
 secrets:
   ca.crt:
@@ -106,21 +120,14 @@ services:
   #
   # Database Layer
   #
-  mysql: &mysql # port: 3308
+  cockroachDB:
     extends:
-      file: ./Ecosystem/Database/mysql.yaml
-      service: mysql
-    ports:
-      - '3310:3306'
-    healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      file: ./Ecosystem/Database/database.yaml
+      service: cockroachDB
 
   vault-mysql: &vault-mysql # port: 3311
     extends:
-      file: ./Ecosystem/Database/mysql.yaml
+      file: ./Ecosystem/Database/database.yaml
       service: vault-mysql
     ports:
       - '3311:3306'
@@ -140,7 +147,7 @@ services:
     depends_on:
       helix-bootstrap:
         condition: service_completed_successfully
-      elastic:
+      elasticsearch:
         condition: service_healthy
       prometheus:
         condition: service_healthy
@@ -157,11 +164,6 @@ services:
     depends_on:
       helix-bootstrap:
         condition: service_completed_successfully
-    healthcheck:
-      test: ['CMD', 'wget', 'http://localhost:9090']
-      interval: 10s
-      timeout: 5s
-      retries: 12
 
   grafana: &grafana # port: 3000
     extends:
@@ -169,14 +171,11 @@ services:
       service: grafana
     ports:
       - '3000:3000'
-    depends_on:
-      prometheus:
-        condition: service_healthy
 
-  elastic: &elastic # ports: 9200, 9300
+  elasticsearch: &elastic # ports: 9200, 9300
     extends:
       file: ./Ecosystem/Logging-Monitoring/logging-monitoring.layer.yaml
-      service: elastic
+      service: elasticsearch
     ports:
       - '9200:9200'
       - '9300:9300'
@@ -184,7 +183,7 @@ services:
       helix-bootstrap:
         condition: service_completed_successfully
     healthcheck:
-      test: curl -u elastic:admin -s https://elastic:9200 >/dev/null; if [ $$? -eq 0 ]; then echo 1; else echo 0; fi
+      test: curl -u elastic:admin -s https://elasticsearch:9200 >/dev/null; if [ $$? -eq 0 ]; then echo 1; else echo 0; fi
       interval: 30s
       timeout: 10s
       retries: 30
@@ -194,7 +193,7 @@ services:
       file: ./Ecosystem/Logging-Monitoring/logging-monitoring.layer.yaml
       service: kibana
     depends_on:
-      elastic:
+      elasticsearch:
         condition: service_healthy
     ports:
       - '8880:5601'
@@ -322,15 +321,6 @@ services:
   #
   # API Gateway
   #
-  krakend: &krakend # port: 8080
-    extends:
-      file: ./Ecosystem/API-Gateway/api-gateway.layer.yaml
-      service: krakend
-    ports:
-      - '8080:8080'
-    depends_on:
-      consul-server-1:
-        condition: service_healthy
 
   #
   # Cache Layer

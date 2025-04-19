@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { HeaderProps, Page } from './header.types'
+import Image from 'next/image'
 import './header.scss'
 
 export const Header: React.FC<HeaderProps> = ({
@@ -38,7 +39,13 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="header" style={style}>
       {/* Left Section: Logo, Title, Version */}
       <div id="Title-Logo-Version" className="header__left">
-        <img src={logo} alt={`${title} logo`} className="header__logo" />
+        <Image
+          src={logo}
+          alt={`${title} logo`}
+          className="header__logo"
+          height={50}
+          width={50}
+        />
         <div className="header__title">{title}</div>
         <div className="header__version">V {version}</div>
       </div>
