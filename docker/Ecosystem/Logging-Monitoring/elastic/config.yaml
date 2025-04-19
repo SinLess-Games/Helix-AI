@@ -1,18 +1,25 @@
-# GENERAL SETTINS
+# ---------------------------------- Cluster -----------------------------------
+cluster.name: HelixAI
 
-cluster.name: 'HelixAI'
-node.name: 'helix-elasticsearch'
-node.attr.zone: 'zone1'
+# ------------------------------------ Node ------------------------------------
+node.name: helix-elasticsearch
+# assign exactly the roles you need (master+data+ingest on a single‑node)
+node.roles: [ master, data, ingest ]
 
-node.data: true
-node.master: true
-
+# ----------------------------------- Network ----------------------------------
 network.host: 0.0.0.0
-discovery.zen.minimum_master_nodes: 1
-
 http.port: 9200
-transport.tcp.port: 9300
+# new name for the transport port
+transport.port: 9300
 
+# -------------------------- Bootstrap / Discovery -----------------------------
+# On a single‑node cluster you can just remove discovery entirely.
+# If you ever scale to multiple masters, use cluster.initial_master_nodes once
+#cluster.initial_master_nodes: [ "helix-elasticsearch" ]
+
+# --------------------------------- Memory Lock -------------------------------
 bootstrap.memory_lock: true
 
+# ---------------------------------- Scripting --------------------------------
+# if you really need inline, but inline is disabled by default in 8.x
 script.allowed_types: inline
