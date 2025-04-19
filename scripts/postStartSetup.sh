@@ -111,4 +111,7 @@ else
     npm install
 fi
 
+log_info "Installing Starship..."
+curl -sS https://starship.rs/install.sh | sh
+
 log_info "Post-start setup completed!"

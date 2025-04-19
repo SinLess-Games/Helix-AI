@@ -13,6 +13,8 @@ services:
       - './consul/generated:/consul/generated'
     command: >
       /bin/bash -c "ls && /app/security/certs.sh && /app/consul/consul.sh"
+    networks:
+      - helix
     healthcheck:
       test: ['CMD', 'stat', '/certs/success']
       interval: 30s

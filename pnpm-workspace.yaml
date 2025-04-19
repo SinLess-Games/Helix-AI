@@ -1,0 +1,11 @@
+onlyBuiltDependencies:
+  - '@nestjs/core'
+  - '@swc/core'
+  - better-sqlite3
+  - core-js
+  - core-js-pure
+  - cypress
+  - dtrace-provider
+  - nx
+  - protobufjs
+  - re2

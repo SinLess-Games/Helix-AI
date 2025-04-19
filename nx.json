@@ -57,6 +57,7 @@
       }
     },
     { "plugin": "@nx/rollup/plugin", "options": { "buildTargetName": "build" } }
+
   ],
   "targetDefaults": {
     "@nx/js:tsc": {
