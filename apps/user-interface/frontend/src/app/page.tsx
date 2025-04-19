@@ -2,6 +2,7 @@
 import styles from './page.module.scss'
 import { Header, HeaderProps } from '@helix/ui'
 import { useState } from 'react'
+import { pages } from './constants'
 
 export default function Index() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -9,12 +10,6 @@ export default function Index() {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen)
   }
-
-  const pages = [
-    { name: 'About', url: '/About' },
-    { name: 'Contact', url: '/Contact' },
-    { name: 'Tech In our Stack', url: '/Technology' },
-  ]
 
   const headerProps: HeaderProps = {
     logo: 'https://cdn.sinlessgamesllc.com/Helix-AI/images/Favicon-01.png',
@@ -27,6 +22,7 @@ export default function Index() {
     menuOpen: menuOpen,
     toggleMenu: toggleMenu,
   }
+
   return (
     <div className={styles.page}>
       <Header {...headerProps} />
