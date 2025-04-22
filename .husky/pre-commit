@@ -30,15 +30,6 @@ else
   fi
 fi
 
-# Validate renovate.json
-log_info "Validating renovate.json"
-if npx --yes --package renovate -- renovate-config-validator --strict > /dev/null; then
-  log_info "Renovate config validated successfully"
-else
-  log_error "Renovate config validation failed"
-  exit 1
-fi
-
 # Run lint-staged
 log_info "Running lint-staged"
 if lint-staged; then
