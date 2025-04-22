@@ -1,38 +1,82 @@
+// libs/shared/database/src/Database/entities/discord/user.entity.ts
+
 import { Entity, Property } from '@mikro-orm/core'
 import { BaseEntity } from '../base.entity'
 
-@Entity()
+/**
+ * Represents a Discord user tracked in the system.
+ *
+ * Inherits UUID id, timestamps, and soft-delete from BaseEntity.
+ */
+@Entity({ tableName: 'discord_users' })
 export class DiscordUser extends BaseEntity {
-  @Property({ unique: true, columnType: 'text' })
-  discord_id: string
+  /**
+   * Unique Discord snowflake ID of the user.
+   */
+  @Property({ type: 'text', name: 'discord_id', unique: true })
+  discordId!: string
 
-  @Property({ columnType: 'text' })
-  username: string
+  /**
+   * Discord username (without discriminator).
+   */
+  @Property({ type: 'text' })
+  username!: string
 
-  @Property({ columnType: 'text' })
-  discriminator: string
+  /**
+   * Four-digit Discord discriminator.
+   */
+  @Property({ type: 'text' })
+  discriminator!: string
 
-  @Property({ columnType: 'int' })
-  discord_account_age: number
+  /**
+   * Age of the Discord account in days.
+   */
+  @Property({ type: 'int', name: 'discord_account_age' })
+  discordAccountAge!: number
 
-  @Property({ columnType: 'int' })
-  helix_account_age: number
+  /**
+   * Age of the Helix account in days.
+   */
+  @Property({ type: 'int', name: 'helix_account_age' })
+  helixAccountAge!: number
 
-  @Property({ columnType: 'boolean' })
-  discord_verified: boolean
+  /**
+   * Whether the Discord account is verified.
+   */
+  @Property({ type: 'boolean', name: 'discord_verified' })
+  discordVerified!: boolean
 
-  @Property({ columnType: 'boolean' })
-  helix_verified: boolean
+  /**
+   * Whether the Helix account is verified.
+   */
+  @Property({ type: 'boolean', name: 'helix_verified' })
+  helixVerified!: boolean
 
-  @Property({ columnType: 'text' })
-  email: string
+  /**
+   * Email associated with the user.
+   */
+  @Property({ type: 'text' })
+  email!: string
 
-  @Property({ columnType: 'text' })
-  system_warnings: number
+  /**
+   * Number of system warnings issued to the user.
+   */
+  @Property({ type: 'int', name: 'system_warnings' })
+  systemWarnings!: number
 
-  @Property({ columnType: 'text' })
-  display_name: string
+  /**
+   * Display name or nickname of the user.
+   */
+  @Property({ type: 'text', name: 'display_name' })
+  displayName!: string
 
-  @Property({ columnType: 'timestamp', defaultRaw: 'CURRENT_TIMESTAMP' })
-  lastInteract: Date
+  /**
+   * Timestamp of the last interaction by the user.
+   */
+  @Property({
+    type: 'timestamptz',
+    name: 'last_interaction_at',
+    defaultRaw: 'CURRENT_TIMESTAMP',
+  })
+  lastInteractionAt: Date = new Date()
 }

@@ -6,7 +6,7 @@
   "release": {
     "version": {
       "generatorOptions": {
-        "packageRoot": "dist/{projectRoot}",
+        "packageRoot": "dist/libs/{projectRoot}",
         "currentVersionResolver": "git-tag"
       }
     }
@@ -19,14 +19,17 @@
       "options": {
         "outputPath": "dist/libs/@helix/core",
         "tsConfig": "libs/shared/core/tsconfig.lib.json",
-        "packageJson": "libs/shared/core/package.json",
+        "packageJson": "core/package.json",
         "main": "libs/shared/core/src/index.ts",
         "assets": ["libs/shared/core/*.md"]
       }
     },
     "nx-release-publish": {
+      "executor": "@nx/js:release-publish",
       "options": {
-        "packageRoot": "dist/{projectRoot}"
+        "packageRoot": "dist/libs/@helix/core",
+        "access": "public",
+        "scope": "helix_ai"
       }
     }
   }

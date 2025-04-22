@@ -1,15 +1,32 @@
+// libs/shared/database/src/Database/enums/gender.enum.ts
+
 /**
  * @enum Gender
  * @description
- * Gender is the range of characteristics pertaining to, and differentiating between, masculinity and femininity.
+ * Range of gender identities for user profiles.
  */
 export enum Gender {
-  Male,
-  Female,
-  NonBinary,
-  genderFluid,
-  genderQueer,
-  genderNonConforming,
-  agender,
-  PreferNotToSay,
+  /** Male identity */
+  Male = 'Male',
+
+  /** Female identity */
+  Female = 'Female',
+
+  /** Non-binary identity */
+  NonBinary = 'NonBinary',
+
+  /** Gender fluid identity */
+  GenderFluid = 'GenderFluid',
+
+  /** Genderqueer identity */
+  GenderQueer = 'GenderQueer',
+
+  /** Gender non-conforming identity */
+  GenderNonConforming = 'GenderNonConforming',
+
+  /** Agender identity */
+  Agender = 'Agender',
+
+  /** Default when no gender is specified */
+  PreferNotToSay = 'PreferNotToSay',
 }

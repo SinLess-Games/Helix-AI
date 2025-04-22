@@ -1,43 +1,72 @@
-import { Entity, Property, BeforeCreate, ManyToOne } from '@mikro-orm/core'
-import { UserProfile } from '../user'
+// libs/shared/database/src/Database/entities/site/news.entity.ts
+
+import {
+  Entity,
+  Property,
+  ManyToOne,
+  BeforeCreate,
+  BeforeUpdate,
+} from '@mikro-orm/core'
 import slugify from 'slugify'
 import { BaseEntity } from '../base.entity'
+import { UserProfile } from '../user/user-profile.entity'
 
-export interface NewsInterface {
-  sid: number
-  name: string
-  description: string
-  content: string
-  image: string
-  alt: string
-  slug: string
-}
-
-@Entity()
+/**
+ * Represents a news article added by a user.
+ *
+ * Inherits UUID id, timestamps, and soft-delete from BaseEntity.
+ * Generates a URL-friendly slug from the name on create/update.
+ */
+@Entity({ tableName: 'news' })
 export class News extends BaseEntity {
-  @Property()
-  name: string
+  /**
+   * Title of the news article.
+   */
+  @Property({ type: 'text' })
+  name!: string
 
-  @Property()
-  description: string
+  /**
+   * Brief summary or teaser for the article.
+   */
+  @Property({ type: 'text' })
+  description!: string
 
-  @Property()
-  content: string
+  /**
+   * Full content of the news article.
+   */
+  @Property({ type: 'text' })
+  content!: string
 
-  @Property()
-  image: string
+  /**
+   * URL or path to the article's main image.
+   */
+  @Property({ type: 'text' })
+  image!: string
 
-  @Property()
-  alt: string
+  /**
+   * Alternate text for the image.
+   */
+  @Property({ type: 'text' })
+  alt!: string
 
-  @Property()
-  slug: string
+  /**
+   * URL-friendly slug, unique across news articles.
+   */
+  @Property({ type: 'text', unique: true })
+  slug!: string
 
-  @ManyToOne(() => UserProfile)
-  added_by!: UserProfile
+  /**
+   * Profile of the user who added the article.
+   */
+  @ManyToOne(() => UserProfile, { name: 'added_by' })
+  addedBy!: UserProfile
 
+  /**
+   * Generate or update slug before insert or update.
+   */
   @BeforeCreate()
-  async slugify() {
-    this.slug = slugify(this.name, '_')
+  @BeforeUpdate()
+  generateSlug(): void {
+    this.slug = slugify(this.name, { lower: true, replacement: '_' })
   }
 }

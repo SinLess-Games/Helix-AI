@@ -1,13 +1,15 @@
 packages:
-  - "apps/user-interface/*"
-  - "apps/api/**"
-  - "apps/ai/**"
-  - "apps/workers/**"
-  - "libs/shared/**"
+  - apps/user-interface/*
+  - apps/api/*
+  - apps/ai/*
+  - apps/workers/*
+  - libs/shared/*
+  - libs/*
 
 onlyBuiltDependencies:
   - '@nestjs/core'
   - '@swc/core'
+  - aws-sdk
   - better-sqlite3
   - core-js
   - core-js-pure
@@ -16,4 +18,3 @@ onlyBuiltDependencies:
   - nx
   - protobufjs
   - re2
-

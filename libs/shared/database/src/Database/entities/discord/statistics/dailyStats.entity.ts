@@ -1,39 +1,61 @@
+// libs/shared/database/src/Database/entities/discord/statistics/dailyStats.entity.ts
+
 import { Entity, Property, ManyToOne } from '@mikro-orm/core'
-import { DiscordWeeklyStatistics } from './weeklyStats.entity'
 import { BaseEntity } from '../../base.entity'
+import { DiscordWeeklyStatistics } from './weeklyStats.entity'
 
-@Entity()
+/**
+ * Daily statistics snapshot for a Discord guild.
+ *
+ * Inherits UUID id, timestamps, and soft-delete from BaseEntity.
+ */
+@Entity({ tableName: 'discord_daily_statistics' })
 export class DiscordDailyStatistics extends BaseEntity {
-  @Property({ columnType: 'int' })
-  guildId: number
+  /**
+   * Snowflake ID of the guild this snapshot belongs to.
+   */
+  @Property({ type: 'text', name: 'guild_id' })
+  guildId!: string
 
-  @Property({ columnType: 'int' })
-  kicks: number
+  /** Total number of kicks recorded. */
+  @Property({ type: 'int' })
+  kicks!: number
 
-  @Property({ columnType: 'int' })
-  warnings: number
+  /** Total number of warnings issued. */
+  @Property({ type: 'int' })
+  warnings!: number
 
-  @Property({ columnType: 'int' })
-  bans: number
+  /** Total number of bans applied. */
+  @Property({ type: 'int' })
+  bans!: number
 
-  @Property({ columnType: 'int' })
-  channels: number
+  /** Count of text channels and categories. */
+  @Property({ type: 'int', name: 'channel_count' })
+  channels!: number
 
-  @Property({ columnType: 'int' })
-  emojis: number
+  /** Total number of emojis in use. */
+  @Property({ type: 'int' })
+  emojis!: number
 
-  @Property({ columnType: 'int' })
-  stickers: number
+  /** Total number of stickers in use. */
+  @Property({ type: 'int' })
+  stickers!: number
 
-  @Property({ columnType: 'int' })
-  members: number
+  /** Total number of members in the guild. */
+  @Property({ type: 'int' })
+  members!: number
 
-  @Property({ columnType: 'int' })
-  roles: number
+  /** Total number of roles defined. */
+  @Property({ type: 'int' })
+  roles!: number
 
-  @Property({ columnType: 'int' })
-  bots: number
+  /** Total number of bots present. */
+  @Property({ type: 'int' })
+  bots!: number
 
-  @ManyToOne(() => DiscordWeeklyStatistics, { fieldName: 'week' })
-  week!: DiscordWeeklyStatistics
+  /**
+   * Reference to the parent weekly statistics record.
+   */
+  @ManyToOne(() => DiscordWeeklyStatistics, { name: 'weekly_stats_id' })
+  weeklyStats!: DiscordWeeklyStatistics
 }

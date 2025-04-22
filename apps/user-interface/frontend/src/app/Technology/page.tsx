@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+'use client'
+
+import React from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
@@ -6,6 +8,7 @@ import { Helix_Card, CardProps } from '@helix/ui'
 import * as Constants from './constants'
 import { Header, HeaderProps } from '@helix/ui'
 import { pages } from '../constants'
+import { useState } from 'react'
 
 export default function Technology() {
   // Flatten all of your card arrays into one list
@@ -20,7 +23,7 @@ export default function Technology() {
     title: 'Helix AI',
     version: '1.0.0',
     style: {
-      backgroundColor: 'rgba(246, 6, 111, .5)',
+      backgroundColor: 'rgba(246, 6, 111, .45)',
     },
     pages: pages,
     menuOpen: menuOpen,
@@ -28,7 +31,7 @@ export default function Technology() {
   }
 
   return (
-    <Box sx={{ p: 4 }}>
+    <Box>
       <Header {...headerProps} />
       {/* Title */}
       <Typography
