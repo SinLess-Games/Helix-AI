@@ -4,9 +4,5 @@
   "description": "Helix UI library",
   "publishConfig": {
     "access": "public"
-  },
-  "description": "Helix UI library",
-  "dependencies": {
-    "@helix/core": "^0.0.1"
   }
 }
