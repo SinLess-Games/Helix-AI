@@ -2,7 +2,7 @@
   "name": "@helix/ui",
   "version": "0.0.1",
   "description": "Helix UI library",
-  "dependencies": {
-    "@helix/core": "^0.0.1"
+  "publishConfig": {
+    "access": "public"
   }
 }

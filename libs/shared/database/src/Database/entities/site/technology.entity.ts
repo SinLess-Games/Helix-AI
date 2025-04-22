@@ -1,30 +1,20 @@
-import { Entity, Property, BeforeCreate, ManyToOne } from '@mikro-orm/core'
-import { TechCategory } from '../../enums'
-import { UserProfile } from '../user'
+// libs/shared/database/src/Database/entities/site/technology.entity.ts
+
+import {
+  Entity,
+  Property,
+  ManyToOne,
+  BeforeCreate,
+  BeforeUpdate,
+} from '@mikro-orm/core'
 import slugify from 'slugify'
 import { BaseEntity } from '../base.entity'
+import { UserProfile } from '../user/user-profile.entity'
+import { TechCategory } from '../../enums'
 
-export interface TechnologyInterface {
-  sid: number
-  name: string
-  description: string
-  content: string
-  image: string
-  alt: string
-  category1: TechCategory
-  category2: TechCategory
-  website: string
-  slug: string
-  added_by: number
-  updatedAt: Date
-  createdAt: Date
-}
-
-@Entity()
 /**
- * @class Technology
- * @description
- * A technology is a tool, framework, programming language, or other software used to develop a microservice.
+ * A technology is a tool, framework, programming language,
+ * or other software used to develop a microservice.
  *
  * This includes but is not limited to:
  * - Programming Languages
@@ -35,39 +25,82 @@ export interface TechnologyInterface {
  * - Cloud Providers
  * - etc.
  */
+@Entity({ tableName: 'technologies' })
 export class Technology extends BaseEntity {
-  @Property()
-  name: string
+  /**
+   * Name of the technology.
+   */
+  @Property({ type: 'text' })
+  name!: string
 
-  @Property()
-  description: string
+  /**
+   * Short description of the technology.
+   */
+  @Property({ type: 'text' })
+  description!: string
 
-  @Property()
-  content: string
+  /**
+   * Detailed content or documentation.
+   */
+  @Property({ type: 'text' })
+  content!: string
 
-  @Property()
-  image: string
+  /**
+   * URL or path to an image representing the technology.
+   */
+  @Property({ type: 'text' })
+  image!: string
 
-  @Property()
-  alt: string
+  /**
+   * Alternate text for the image.
+   */
+  @Property({ type: 'text' })
+  alt!: string
 
-  @Property({ type: 'enum', default: TechCategory.Other })
-  category1: TechCategory
+  /**
+   * Primary category of the technology.
+   */
+  @Property({
+    type: 'string',
+    default: TechCategory.Other,
+    name: 'category1',
+  })
+  category1: TechCategory = TechCategory.Other
 
-  @Property({ type: 'enum', default: TechCategory.Other })
-  category2: TechCategory
+  /**
+   * Secondary category of the technology.
+   */
+  @Property({
+    type: 'string',
+    default: TechCategory.Other,
+    name: 'category2',
+  })
+  category2: TechCategory = TechCategory.Other
 
-  @Property()
-  website: string
+  /**
+   * Official website or documentation URL.
+   */
+  @Property({ type: 'text' })
+  website!: string
 
-  @Property()
-  slug: string
+  /**
+   * URL-friendly slug, unique across technologies.
+   */
+  @Property({ type: 'text', unique: true })
+  slug!: string
 
-  @ManyToOne(() => UserProfile)
-  added_by!: UserProfile
+  /**
+   * Profile of the user who added this technology.
+   */
+  @ManyToOne(() => UserProfile, { name: 'added_by' })
+  addedBy!: UserProfile
 
+  /**
+   * Generate or update slug before insert or update operations.
+   */
   @BeforeCreate()
-  generateSlug() {
-    this.slug = slugify(this.name, '_')
+  @BeforeUpdate()
+  generateSlug(): void {
+    this.slug = slugify(this.name, { lower: true, replacement: '_' })
   }
 }

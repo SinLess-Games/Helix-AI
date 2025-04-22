@@ -1,16 +1,33 @@
+// libs/shared/database/src/Database/entities/discord/statistics/monthlyStats.entity.ts
+
 import { Entity, Property, OneToMany, ManyToOne } from '@mikro-orm/core'
+import { BaseEntity } from '../../base.entity'
 import { DiscordWeeklyStatistics } from './weeklyStats.entity'
 import { DiscordYearlyStatistics } from './yearlyStats.entity'
-import { BaseEntity } from '../../base.entity'
 
-@Entity()
+/**
+ * Represents a monthly statistics snapshot for a Discord guild.
+ *
+ * Inherits UUID id, timestamps, and soft‑delete from BaseEntity.
+ */
+@Entity({ tableName: 'discord_monthly_statistics' })
 export class DiscordMonthlyStatistics extends BaseEntity {
-  @Property({ columnType: 'int' })
-  month: number
+  /**
+   * Month of the year (1–12).
+   */
+  @Property({ type: 'int', name: 'month' })
+  month!: number
 
-  @OneToMany(() => DiscordWeeklyStatistics, (weeklyStats) => weeklyStats.month)
+  /**
+   * Weekly statistics records belonging to this month.
+   */
+  @OneToMany(() => DiscordWeeklyStatistics, (ws) => ws.monthlyStats)
   weeklyStats: DiscordWeeklyStatistics[] = []
 
-  @ManyToOne(() => DiscordYearlyStatistics, { fieldName: 'year' })
-  year!: DiscordYearlyStatistics
+  /**
+   * Reference to the parent yearly statistics record.
+   * Column: yearly_stats_id
+   */
+  @ManyToOne(() => DiscordYearlyStatistics, { name: 'yearly_stats_id' })
+  yearlyStats!: DiscordYearlyStatistics
 }

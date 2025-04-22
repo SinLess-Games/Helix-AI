@@ -1,45 +1,71 @@
-import { Entity, Property, ManyToOne, BeforeUpsert } from '@mikro-orm/core'
-import { UserProfile } from '../user'
+import {
+  Entity,
+  Property,
+  ManyToOne,
+  BeforeCreate,
+  BeforeUpdate,
+} from '@mikro-orm/core'
 import slugify from 'slugify'
 import { BaseEntity } from '../base.entity'
+import { UserProfile } from '../user/user-profile.entity'
 
-export interface MicroserviceInterface {
-  sid: number
-  name: string
-  description: string
-  content: string
-  image: string
-  alt: string
-  added_by: number
-  slug: string
-}
-
-@Entity()
+/**
+ * Represents a microservice entry added by a user.
+ *
+ * Inherits common fields (id, timestamps, soft-delete) from BaseEntity.
+ * Automatically generates a URL-friendly slug from the name.
+ */
+@Entity({ tableName: 'microservices' })
 export class Microservice extends BaseEntity {
-  @Property()
-  name: string
+  /**
+   * Display name of the microservice.
+   */
+  @Property({ type: 'text' })
+  name!: string
 
-  @Property()
-  description: string
+  /**
+   * Short description of the microservice.
+   */
+  @Property({ type: 'text' })
+  description!: string
 
-  @Property()
-  content: string
+  /**
+   * Detailed content or documentation for the microservice.
+   */
+  @Property({ type: 'text' })
+  content!: string
 
-  @Property()
-  image: string
+  /**
+   * URL or path to an image representing the microservice.
+   */
+  @Property({ type: 'text' })
+  image!: string
 
-  @Property()
-  alt: string
+  /**
+   * Alternative text for the image.
+   */
+  @Property({ type: 'text' })
+  alt!: string
 
-  @ManyToOne(() => UserProfile)
-  added_by!: UserProfile
+  /**
+   * Reference to the user profile who added this microservice.
+   * Column: added_by
+   */
+  @ManyToOne(() => UserProfile, { name: 'added_by' })
+  addedBy!: UserProfile
 
-  @Property()
-  slug: string
+  /**
+   * URL-friendly slug, unique across microservices.
+   */
+  @Property({ type: 'text', unique: true })
+  slug!: string
 
-  @BeforeUpsert()
-  beforeCreate() {
-    this.slug = slugify(this.name, '_')
-    return this.slug
+  /**
+   * Lifecycle hook to generate or update slug before insert/update.
+   */
+  @BeforeCreate()
+  @BeforeUpdate()
+  generateSlug(): void {
+    this.slug = slugify(this.name, { lower: true, replacement: '_' })
   }
 }

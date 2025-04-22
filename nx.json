@@ -1,6 +1,7 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "useDaemonProcess": false,
+  "useInferencePlugins": true,
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
@@ -70,8 +71,17 @@
   },
   "release": { "version": { "preVersionCommand": "npx nx run-many -t build" } },
   "generators": {
-    "@nx/next": { "application": { "style": "scss", "linter": "eslint" } },
-    "@nx/react": { "library": { "unitTestRunner": "jest" } }
+    "@nx/next": {
+      "application": {
+        "style": "scss",
+        "linter": "eslint"
+      }
+    },
+    "@nx/react": {
+      "library": {
+        "unitTestRunner": "jest"
+      }
+    }
   },
-  "nxCloudAccessToken": "MmQxNmFkNTAtZGVkNS00MWY2LWE5NTAtMzIxMDFhNmEyNzAwfHJlYWQtd3JpdGU="
+  "nxCloudAccessToken": "ZDhiY2U3NTQtNmE4Ni00NjY3LWE3MGMtNDc4ZWYwZjE4Mjk3fHJlYWQtd3JpdGU="
 }

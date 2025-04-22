@@ -1,32 +1,70 @@
+// libs/shared/database/src/Database/entities/discord/guild.entity.ts
+
 import { Entity, Property } from '@mikro-orm/core'
 import { BaseEntity } from '../base.entity'
 
-@Entity()
+/**
+ * Represents a Discord guild (server) record tracked by the system.
+ *
+ * Inherits UUID id, timestamps, and soft-delete from BaseEntity.
+ */
+@Entity({ tableName: 'discord_guilds' })
 export class DiscordGuild extends BaseEntity {
-  @Property({ columnType: 'text' })
-  discord_id: string // snowflake	guild id
+  /**
+   * Snowflake ID of the guild.
+   */
+  @Property({ type: 'text', name: 'discord_id' })
+  discordId!: string
 
-  @Property({ columnType: 'text' })
-  name: string // string	guild name (2-100 characters, excluding trailing and leading whitespace)
+  /**
+   * Name of the guild (2–100 characters, no leading/trailing whitespace).
+   */
+  @Property({ type: 'text' })
+  name!: string
 
-  @Property({ columnType: 'bigint' })
-  owner_id: number // snowflake	id of owner
+  /**
+   * Snowflake ID of the guild owner.
+   */
+  @Property({ type: 'text', name: 'owner_id' })
+  ownerId!: string
 
-  @Property({ columnType: 'int' })
-  Channel_count: number // integer	total number of text channels and categories that the guild has
+  /**
+   * Total number of text channels and categories in the guild.
+   */
+  @Property({ type: 'int', name: 'channel_count' })
+  channelCount!: number
 
-  @Property({ columnType: 'int' })
-  thread_count: number // integer	total number of threads that the guild has across all of its channels
+  /**
+   * Total number of threads across all channels in the guild.
+   */
+  @Property({ type: 'int', name: 'thread_count' })
+  threadCount!: number
 
-  @Property({ columnType: 'int' })
-  member_count: number // integer	total number of users in the guild
+  /**
+   * Total number of members in the guild.
+   */
+  @Property({ type: 'int', name: 'member_count' })
+  memberCount!: number
 
-  @Property({ columnType: 'text', nullable: true })
-  prefix: string | null // string	the prefix of the guild, used when invoking slash commands
+  /**
+   * Custom command prefix for the guild, if set.
+   */
+  @Property({ type: 'text', nullable: true })
+  prefix?: string
 
-  @Property({ columnType: 'boolean', default: false })
-  deleted: boolean
+  /**
+   * Whether this guild record has been soft-deleted.
+   */
+  @Property({ default: false })
+  deleted = false
 
-  @Property({ columnType: 'timestamp', defaultRaw: 'CURRENT_TIMESTAMP' })
-  lastInteract: Date
+  /**
+   * Timestamp of the last user interaction in the guild.
+   */
+  @Property({
+    type: 'timestamptz',
+    name: 'last_interaction_at',
+    defaultRaw: 'CURRENT_TIMESTAMP',
+  })
+  lastInteractionAt: Date = new Date()
 }
