@@ -1,3 +1,0 @@
-# helix
-
-Project description here.

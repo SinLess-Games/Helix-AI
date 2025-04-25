@@ -88,6 +88,8 @@ Terraform/variables.auto.tfvars.json
 .ssh/
 .ssh/.ssh
 
+.data/
+
 # =======================================================
 # ==                     Caches                         ==
 # =======================================================
@@ -110,6 +112,7 @@ libpeerconnection.log
 testem.log
 .typings
 /pnpm-global/
+.pnpm-store/
 
 # Basic cache directory
 .cache/
