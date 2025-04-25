@@ -110,6 +110,7 @@ libpeerconnection.log
 testem.log
 .typings
 /pnpm-global/
+.pnpm-store/
 
 # Basic cache directory
 .cache/
