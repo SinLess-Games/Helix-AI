@@ -2,7 +2,7 @@ name: Helix-dev
 
 services:
   cockroach:
-    image: cockroachdb/cockroach:v25.1.4
+    image: cockroachdb/cockroach:v25.1.4@sha256:0a2671147906da20d81e05df39af7eea8f0d3d1e57327d4285cc513613620703
     container_name: cockroach
     ports:
       - "26257:26257"
