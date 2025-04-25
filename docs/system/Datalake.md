@@ -87,8 +87,8 @@ Here’s a step‐by‐step implementation checklist, organized by layer. Tick o
 ### 2. OLTP Database (CockroachDB)
 
 - [ ] **Provision a CockroachDB cluster**
-  - Choose managed or self‑hosted
-  - Configure node counts, regions, and high‑availability
+  - [x] Choose managed or self‑hosted {Managed}
+  - [x] Configure node counts, regions, and high‑availability
 - [ ] **Secure the cluster**
   - Enable TLS for client & node communications
   - Create admin & application users with least‑privilege roles

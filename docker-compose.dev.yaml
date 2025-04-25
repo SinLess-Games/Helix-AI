@@ -1,0 +1,19 @@
+name: Helix-dev
+
+services:
+  cockroach:
+    image: cockroachdb/cockroach:v25.1.4
+    container_name: cockroach
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+    command:
+      - start-single-node
+    environment:
+      - COCKROACH_CHANNEL=dev
+      - COCKROACH_DATABASE=${DB_NAME:-helix_dev}
+      - COCKROACH_USER=${DB_USER:-}
+      - COCKROACH_PASSWORD=${DB_PASSWORD:-}
+    volumes:
+      - ./.data/cockroach:/cockroach/cockroach-data
+
