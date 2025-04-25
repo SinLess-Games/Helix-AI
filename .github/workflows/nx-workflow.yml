@@ -25,21 +25,21 @@ jobs:
         os: [ubuntu-22.04, ubuntu-24.04]
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           fetch-depth: 0
 
       # Cache node_modules
-      - uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
           cache: 'npm'
 
-      - uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3 # v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Run image
-        uses: abatilo/actions-poetry@7b6d33e44b4f08d7021a1dee3c044e9c253d6439 # v3
+        uses: abatilo/actions-poetry@fd0e6716a0de25ef6ade151b8b53190b0376acfd # v3
         with:
           poetry-version: ${{ matrix.poetry-version }}
 
@@ -48,7 +48,7 @@ jobs:
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         id: setSHAs
-        uses: nrwl/nx-set-shas@16efd743af6fc1421daaaa33b61cec4a907b38ed # v4
+        uses: nrwl/nx-set-shas@dbe0650947e5f2c81f59190a38512cf49126fe6b # v4
         with:
           main-branch-name: "master"
 
