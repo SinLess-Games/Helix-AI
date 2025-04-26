@@ -1,5 +1,5 @@
 # Use the official Fluentd base image
-FROM fluent/fluentd:v1.15.3-1.2@sha256:3b7d8d4b4064cbed7e7f90e63c1b769fe90a34a975508d79991c54a6b8ea22d4
+FROM fluent/fluentd:v1.18.0-1.2@sha256:e9fd441ae826c7ba47886cdcb41e04809871b10d5d775c1e99625e6000887306
 
 # Use root account to use apk
 USER root
