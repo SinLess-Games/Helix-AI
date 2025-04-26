@@ -13,6 +13,7 @@ tmp/
 out-tsc/
 .next/
 out/
+.data/
 
 # =======================================================
 # ==                  Node.js Dependencies              ==
