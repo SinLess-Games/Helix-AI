@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:22-bullseye@sha256:f33facce7c14957a952778eff9cfde2eaff29770bf549645e9655f4e8cdb1f07
+FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:22-bullseye@sha256:42b4550b980e289ae43f1ffac3de1b8dabc943b3b415eb89a0f41cdcea791ad6
 
 # Set DEBIAN_FRONTEND to noninteractive for non-interactive installations
 ENV DEBIAN_FRONTEND=noninteractive
